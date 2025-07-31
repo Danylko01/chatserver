@@ -1,0 +1,32 @@
+CREATE DATABASE chat CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+CREATE TABLE user (
+    id INT PRIMARY KEY AUTO_INCREMENT COMMENT '用户id',
+    name VARCHAR(50) NOT NULL UNIQUE COMMENT '用户名',
+    password VARCHAR(50) NOT NULL COMMENT '用户密码',
+    state ENUM('online', 'offline') DEFAULT 'offline' COMMENT '当前登录状态'
+)CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE friend (
+    userid INT NOT NULL COMMENT '用户id',
+    friendid INT NOT NULL COMMENT '好友id',
+    PRIMARY KEY (userid, friendid)
+)CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE allgroup (
+    id INT PRIMARY KEY AUTO_INCREMENT COMMENT '组id',
+    groupname VARCHAR(50) NOT NULL UNIQUE COMMENT '组名称',
+    groupdesc VARCHAR(200) DEFAULT '' COMMENT '组功能描述'
+)CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE groupuser (
+    groupid INT NOT NULL COMMENT '组id',
+    userid INT NOT NULL COMMENT '组员id',
+    grouprole ENUM('creator', 'normal') DEFAULT 'normal' COMMENT '组内角色',
+    PRIMARY KEY (groupid, userid)
+)CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE offlinemessage (
+    userid INT NOT NULL COMMENT '用户id',
+    message VARCHAR(500) NOT NULL COMMENT '离线消息（存储Json字符串）'
+) CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci;
